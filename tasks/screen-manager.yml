@@ -1,0 +1,41 @@
+---
+- name: Deploy Screen Manager
+  become: true
+  vars:
+    app_user: orangepi
+    app_dir: /home/orangepi/Orange/1.28inch_Touch_LCD_Demo/RPI/python/example
+    repo_url: https://github.com/youruser/orion-screen.git
+
+  tasks:
+    - name: Ensure dependencies installed
+      apt:
+        name:
+          - git
+        state: present
+        update_cache: yes
+
+    - name: Clone or update screen repo
+      become_user: "{{ app_user }}"
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ app_dir }}"
+        version: main
+        force: yes
+
+    - name: Install systemd service file for screen
+      copy:
+        src: files/screen.service
+        dest: /etc/systemd/system/screen.service
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable and restart screen service
+      systemd:
+        name: screen.service
+        enabled: yes
+        state: restarted

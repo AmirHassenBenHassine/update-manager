@@ -1,0 +1,17 @@
+[Unit]
+Description=Orion Screen Service
+After=network.target
+
+[Service]
+User=orangepi
+[Service]
+WorkingDirectory=/home/orangepi/screen-manager/src
+ExecStart=/home/orangepi/screen-manager/src/screen.sh
+ExecStop=/bin/kill $MAINPID
+Restart=always
+KillMode=control-group
+KillSignal=SIGTERM
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target

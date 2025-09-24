@@ -1,0 +1,15 @@
+---
+- name: Orion Update Manager
+  hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+    - name: Include WiFi Manager tasks
+      import_tasks: tasks/wifi-manager.yml
+
+    - name: Include Screen Manager tasks
+      import_tasks: tasks/screen-manager.yml
+
+    - name: Include cronjob tasks
+      import_tasks: tasks/cronjob.yml
