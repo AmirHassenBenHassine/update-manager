@@ -22,7 +22,7 @@
 
 - name: Install Python dependencies
   pip:
-    requirements: "{{ app_dir }}/backend/requirements.txt"
+    requirements: "{{ app_dir }}/src/requirements.txt"
     executable: pip3
 
 - name: Install systemd service file for screen
