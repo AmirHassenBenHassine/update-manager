@@ -3,8 +3,8 @@
   become: true
   vars:
     app_user: orangepi
-    app_dir: /home/orangepi/Orange/1.28inch_Touch_LCD_Demo/RPI/python/example
-    repo_url: https://github.com/youruser/orion-screen.git
+    app_dir: /home/orangepi/screen-manager
+    repo_url: https://github.com/AmirHassenBenHassine/screen-manager.git
 
   tasks:
     - name: Ensure dependencies installed
