@@ -14,6 +14,17 @@
     version: main
     force: yes
 
+- name: Install Python3 pip
+  apt:
+    name: python3-pip
+    state: present
+    update_cache: yes
+
+- name: Install Python dependencies
+  pip:
+    requirements: "{{ app_dir }}/backend/requirements.txt"
+    executable: pip3
+
 - name: Install systemd service file for screen
   copy:
     src: screen.service   # must be inside roles/screen-manager/files/
