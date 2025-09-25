@@ -3,8 +3,6 @@ Description=Orion Screen Service
 After=network.target
 
 [Service]
-User=orangepi
-[Service]
 WorkingDirectory=/home/orangepi/screen-manager/src
 ExecStart=/home/orangepi/screen-manager/src/screen.sh
 ExecStop=/bin/kill $MAINPID
