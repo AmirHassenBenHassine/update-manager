@@ -28,9 +28,14 @@
     pm2 start wifi-client.py --interpreter python3 --name wifi-backend || pm2 restart wifi-backend
     pm2 save
 
+- name: Ensure PM2 frontend is clean
+  become_user: "{{ app_user }}"
+  shell: pm2 delete wifi-frontend || true
+
 - name: Start frontend with PM2
   become_user: "{{ app_user }}"
   shell: |
     cd {{ app_dir }}/frontend
     pm2 start "npx serve -s dist -l 3000" --name wifi-frontend || pm2 restart wifi-frontend
     pm2 save
+
