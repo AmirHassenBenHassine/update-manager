@@ -1,0 +1,36 @@
+---
+- name: Ensure dependencies installed
+  apt:
+    name:
+      - git
+      - npm
+    state: present
+    update_cache: yes
+
+- name: Clone or update WiFi Manager repo
+  become_user: "{{ app_user }}"
+  git:
+    repo: "{{ repo_url }}"
+    dest: "{{ app_dir }}"
+    version: main
+    force: yes
+
+- name: Install PM2 globally
+  npm:
+    name: pm2
+    global: yes
+    state: present
+
+- name: Start backend with PM2
+  become_user: "{{ app_user }}"
+  shell: |
+    cd {{ app_dir }}/backend
+    pm2 start wifi-client.py --interpreter python3 --name wifi-backend || pm2 restart wifi-backend
+    pm2 save
+
+- name: Start frontend with PM2
+  become_user: "{{ app_user }}"
+  shell: |
+    cd {{ app_dir }}/frontend
+    pm2 start "npx serve -s dist -l 3000" --name wifi-frontend || pm2 restart wifi-frontend
+    pm2 save
